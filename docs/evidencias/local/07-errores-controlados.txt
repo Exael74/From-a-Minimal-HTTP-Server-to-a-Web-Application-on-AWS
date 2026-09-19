@@ -1,0 +1,12 @@
+Evidencia de red: los cinco botones de "Errores controlados" disparados desde la interfaz
+en localhost:35000, capturada con las herramientas de red del navegador.
+Fecha: 2026-09-18
+
+GET  /no-existe.html         -> 404 Not Found          (text/html; charset=UTF-8)
+GET  /hello                  -> 400 Bad Request         (application/json; charset=UTF-8)
+GET  /square?number=hola     -> 400 Bad Request         (application/json; charset=UTF-8)
+GET  /..%2fpom.xml           -> 403 Forbidden           (text/html; charset=UTF-8)
+POST /index.html             -> 405 Method Not Allowed  (text/html; charset=UTF-8)
+
+Cada caso muestra en la interfaz el mensaje amigable correspondiente (ver
+07-errores-controlados.png para el caso 404) sin exponer detalles internos del servidor.

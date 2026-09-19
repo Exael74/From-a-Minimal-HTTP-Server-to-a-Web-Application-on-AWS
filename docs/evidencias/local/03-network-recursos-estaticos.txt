@@ -1,0 +1,14 @@
+Evidencia de red: una sola pagina genera cinco solicitudes HTTP (localhost:35000).
+Capturada con las herramientas de red del navegador (equivalente a la pestaña Network de DevTools).
+Fecha: 2026-09-18
+
+1. GET http://localhost:35000/               -> 200 OK  (text/html; charset=UTF-8, 6581 bytes)
+2. GET http://localhost:35000/styles.css     -> 200 OK  (text/css; charset=UTF-8, 5405 bytes)
+3. GET http://localhost:35000/logo.png       -> 200 OK  (image/png, 51547 bytes)
+4. GET http://localhost:35000/secuencial.jpg -> 200 OK  (image/jpeg, 23529 bytes)
+5. GET http://localhost:35000/app.js         -> 200 OK  (text/javascript; charset=UTF-8, 12428 bytes)
+
+Las cinco solicitudes se resuelven en paralelo/secuencia desde el mismo proceso de servidor
+(ver docs/evidencias/local/registro-servidor.txt para las marcas de tiempo exactas), confirmando
+que el documento, la hoja de estilos, el script y cada imagen viajan como peticiones separadas,
+cada una con su Content-Type correcto.

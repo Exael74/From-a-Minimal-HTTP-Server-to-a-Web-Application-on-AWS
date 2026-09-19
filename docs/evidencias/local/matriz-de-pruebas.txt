@@ -1,0 +1,67 @@
+MATRIZ DE PRUEBAS FUNCIONALES
+Servidor: http://localhost:35000   Fecha: 2026-09-10 23:39:39
+--------------------------------------------------------------------------
+[1] Recursos estaticos
+GET /                                  HTTP 200   text/html; charset=UTF-8
+GET /styles.css                        HTTP 200   text/css; charset=UTF-8
+GET /app.js                            HTTP 200   text/javascript; charset=UTF-8
+GET /logo.png                          HTTP 200   image/png
+GET /secuencial.jpg                    HTTP 200   image/jpeg
+--------------------------------------------------------------------------
+[2] Servicios: casos validos
+GET /hello?name=Ana                    HTTP 200   application/json; charset=UTF-8
+    {"service":"greeting","name":"Ana","message":"Hola, Ana. Este saludo lo genero el servidor Java.","timestamp":"2026-09-10T23:39:40.6017427-05:00"}
+GET /square?number=12                  HTTP 200   application/json; charset=UTF-8
+    {"service":"square","input":12,"result":144}
+GET /time                              HTTP 200   application/json; charset=UTF-8
+    {"service":"server-time","iso8601":"2026-09-10T23:39:41.0412557-05:00","epochMillis":1789101581041,"zone":"America/Bogota"}
+GET /health                            HTTP 200   application/json; charset=UTF-8
+    {"status":"ok","service":"health","uptimeSeconds":275}
+--------------------------------------------------------------------------
+[3] Servicios: casos invalidos
+GET /hello  (sin name)                 HTTP 400   application/json; charset=UTF-8
+    {"error":"missing_parameter","message":"Falta el parametro obligatorio 'name'.","status":400}
+GET /hello?name=  (vacio)              HTTP 400   application/json; charset=UTF-8
+    {"error":"empty_parameter","message":"El parametro 'name' no puede estar vacio.","status":400}
+GET /square  (sin number)              HTTP 400   application/json; charset=UTF-8
+    {"error":"missing_parameter","message":"Falta el parametro obligatorio 'number'.","status":400}
+GET /square?number=hola                HTTP 400   application/json; charset=UTF-8
+    {"error":"invalid_number","message":"El valor 'hola' no es un numero valido.","status":400}
+GET /slow?seconds=99                   HTTP 400   application/json; charset=UTF-8
+    {"error":"out_of_range","message":"El parametro 'seconds' debe estar entre 0 y 10.","status":400}
+--------------------------------------------------------------------------
+[4] Errores de protocolo y seguridad
+GET /no-existe.html  (404)             HTTP 404   text/html; charset=UTF-8
+POST /index.html  (405)                HTTP 405   text/html; charset=UTF-8
+POST /health  (405)                    HTTP 405   application/json; charset=UTF-8
+    {"error":"method_not_allowed","message":"Este servicio solo responde a GET.","status":405}
+GET /../pom.xml  (403)                 HTTP 403   text/html; charset=UTF-8
+GET /..%2fpom.xml  (403)               HTTP 403   text/html; charset=UTF-8
+GET /%2e%2e/pom.xml  (403)             HTTP 403   text/html; charset=UTF-8
+--------------------------------------------------------------------------
+[5] Escape de JSON con entrada hostil
+GET /hello?name=a"b                    HTTP 200   application/json; charset=UTF-8
+    {"service":"greeting","name":"a\"b","message":"Hola, a\"b. Este saludo lo genero el servidor Java.","timestamp":"2026-09-10T23:39:43.9752505-05:00"}
+GET /hello?name=</script>              HTTP 200   application/json; charset=UTF-8
+    {"service":"greeting","name":"</script>","message":"Hola, </script>. Este saludo lo genero el servidor Java.","timestamp":"2026-09-10T23:39:44.2188624-05:00"}
+--------------------------------------------------------------------------
+[6] Diez operaciones consecutivas en una sola corrida del servidor
+     1. GET /square?number=1   -> {"service":"square","input":1,"result":1}
+     2. GET /square?number=2   -> {"service":"square","input":2,"result":4}
+     3. GET /square?number=3   -> {"service":"square","input":3,"result":9}
+     4. GET /square?number=4   -> {"service":"square","input":4,"result":16}
+     5. GET /square?number=5   -> {"service":"square","input":5,"result":25}
+     6. GET /square?number=6   -> {"service":"square","input":6,"result":36}
+     7. GET /square?number=7   -> {"service":"square","input":7,"result":49}
+     8. GET /square?number=8   -> {"service":"square","input":8,"result":64}
+     9. GET /square?number=9   -> {"service":"square","input":9,"result":81}
+    10. GET /square?number=10  -> {"service":"square","input":10,"result":100}
+--------------------------------------------------------------------------
+[7] Limite secuencial: una peticion lenta bloquea a la siguiente
+    Lanzando GET /slow?seconds=3 en segundo plano...
+    Respuesta de /slow  : {"service":"slow","seconds":3,"startedAt":"2026-09-10T23:39:45.0378369-05:00","finishedAt":"2026-09-10T23:39:48.0423422-05:00"}
+    Respuesta de /health: {"status":"ok","service":"health","uptimeSeconds":282}
+    La peticion a /health se lanzo 0.5 s despues y tardo 2513 ms en volver.
+    Sin el bloqueo secuencial habria respondido en pocos milisegundos.
+--------------------------------------------------------------------------
+FIN

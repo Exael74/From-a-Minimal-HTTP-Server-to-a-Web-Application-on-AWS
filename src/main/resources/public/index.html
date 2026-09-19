@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aplicación web sobre sockets — Java + AWS EC2</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="banner">
+  <img class="banner__logo" src="/logo.png" alt="Logotipo del taller, servido como image/png">
+  <div>
+    <p class="banner__eyebrow">Transformación Digital y Sistemas Empresariales</p>
+    <h1>Una aplicación web sobre un servidor secuencial</h1>
+    <p class="banner__lead">
+      Todo lo que ves —este HTML, la hoja de estilos, el script, las dos imágenes y las
+      respuestas JSON— lo entrega un servidor Java escrito con <code>ServerSocket</code>
+      que atiende <strong>una conexión a la vez</strong>.
+    </p>
+  </div>
+</header>
+
+<main>
+  <!-- ============ Servicios ============ -->
+  <section class="card" aria-labelledby="servicios-titulo">
+    <h2 id="servicios-titulo">Servicios del servidor</h2>
+    <p class="card__hint">
+      Cada botón hace una petición asíncrona con <code>fetch</code>. La página nunca se recarga:
+      solo cambia el panel de resultado.
+    </p>
+
+    <div class="grid">
+      <form id="form-saludo" class="field" novalidate>
+        <label for="input-nombre">Saludo · <code>GET /hello?name=…</code></label>
+        <div class="field__row">
+          <input id="input-nombre" name="name" type="text" maxlength="60"
+                 placeholder="Tu nombre" autocomplete="off">
+          <button type="submit">Saludar</button>
+        </div>
+      </form>
+
+      <form id="form-cuadrado" class="field" novalidate>
+        <label for="input-numero">Cuadrado · <code>GET /square?number=…</code></label>
+        <div class="field__row">
+          <input id="input-numero" name="number" type="number" step="any"
+                 placeholder="Un número" autocomplete="off">
+          <button type="submit">Calcular</button>
+        </div>
+      </form>
+
+      <form id="form-hora" class="field" novalidate>
+        <label>Hora del servidor · <code>GET /time</code></label>
+        <div class="field__row">
+          <button type="submit">Consultar hora</button>
+          <button type="button" id="boton-salud" class="secondary">Ver <code>/health</code></button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ Resultado ============ -->
+  <section class="card" aria-labelledby="resultado-titulo">
+    <h2 id="resultado-titulo">Resultado</h2>
+
+    <p id="estado" class="status" role="status" aria-live="polite" hidden></p>
+
+    <div id="exito" class="panel panel--ok" role="region" aria-live="polite" hidden>
+      <p id="exito-mensaje" class="panel__mensaje"></p>
+      <dl id="exito-detalle" class="detalle"></dl>
+    </div>
+
+    <div id="error" class="panel panel--error" role="alert" hidden>
+      <p id="error-mensaje" class="panel__mensaje"></p>
+      <p id="error-detalle" class="panel__detalle"></p>
+    </div>
+
+    <details class="crudo">
+      <summary>Respuesta HTTP cruda de la última llamada</summary>
+      <pre id="crudo-contenido">Todavía no se ha llamado ningún servicio.</pre>
+    </details>
+  </section>
+
+  <!-- ============ Errores controlados ============ -->
+  <section class="card" aria-labelledby="errores-titulo">
+    <h2 id="errores-titulo">Errores controlados</h2>
+    <p class="card__hint">
+      Estos botones piden a propósito cosas que el servidor debe rechazar. El resultado aparece
+      en el panel de error de arriba y en la pestaña <em>Network</em> del navegador.
+    </p>
+    <div class="botonera">
+      <button type="button" class="secondary" data-prueba="404">404 · archivo inexistente</button>
+      <button type="button" class="secondary" data-prueba="400">400 · parámetro faltante</button>
+      <button type="button" class="secondary" data-prueba="400-numero">400 · número inválido</button>
+      <button type="button" class="secondary" data-prueba="403">403 · path traversal</button>
+      <button type="button" class="secondary" data-prueba="405">405 · método no soportado</button>
+    </div>
+  </section>
+
+  <!-- ============ Límite secuencial ============ -->
+  <section class="card" aria-labelledby="secuencial-titulo">
+    <h2 id="secuencial-titulo">El límite secuencial</h2>
+    <p class="card__hint">
+      <code>GET /slow?seconds=N</code> mantiene ocupado al único hilo del servidor durante N
+      segundos. Abre esta página en dos ventanas: lanza la petición lenta en una y, sin esperar,
+      pide la hora en la otra. La segunda ventana no recibe respuesta hasta que la primera termina.
+    </p>
+    <form id="form-lento" class="field" novalidate>
+      <label for="input-segundos">Segundos de ocupación (0 a 10)</label>
+      <div class="field__row">
+        <input id="input-segundos" name="seconds" type="number" step="1" min="0" max="10" value="5">
+        <button type="submit">Ocupar el servidor</button>
+      </div>
+    </form>
+    <p class="card__hint">
+      La interfaz sigue respondiendo mientras esperas —puedes escribir y pulsar otros botones—
+      porque el cliente es asíncrono. El servidor, en cambio, sigue siendo secuencial.
+    </p>
+  </section>
+
+  <!-- ============ Recursos estáticos ============ -->
+  <section class="card" aria-labelledby="estaticos-titulo">
+    <h2 id="estaticos-titulo">Recursos estáticos</h2>
+    <p class="card__hint">
+      Una sola página HTML genera varias peticiones HTTP: el documento, la hoja de estilos, el
+      script y cada imagen viajan por separado, una detrás de otra.
+    </p>
+    <figure>
+      <img src="/secuencial.jpg" alt="Ilustración del ciclo accept, atender, cerrar, accept">
+      <figcaption>
+        <code>/secuencial.jpg</code> — <code>image/jpeg</code>. Arriba, <code>/logo.png</code> —
+        <code>image/png</code>. Ambas se leen y se envían como bytes.
+      </figcaption>
+    </figure>
+    <ul class="enlaces">
+      <li><a href="/health">/health</a> — estado del proceso</li>
+      <li><a href="/time">/time</a> — hora del servidor</li>
+      <li><a href="/hello?name=Ana">/hello?name=Ana</a> — saludo</li>
+      <li><a href="/square?number=12">/square?number=12</a> — cuadrado</li>
+      <li><a href="/logo.png">/logo.png</a> · <a href="/secuencial.jpg">/secuencial.jpg</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <p>
+    Servidor Java secuencial sobre <code>ServerSocket</code> · sin hilos, sin framework de rutas
+    · desplegado en una instancia Amazon EC2.
+  </p>
+</footer>
+
+<script src="/app.js"></script>
+</body>
+</html>

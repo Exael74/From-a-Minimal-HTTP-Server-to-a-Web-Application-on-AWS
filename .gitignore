@@ -1,0 +1,83 @@
+# ---------------------------------------------------------------------------
+# Documentacion
+# ---------------------------------------------------------------------------
+# Del resto de archivos .md (enunciados, apuntes y documentacion de trabajo) solo
+# se versionan el README principal y las notas que acompanan a la evidencia.
+*.md
+!/README.md
+!/docs/evidencias/local/*.md
+!/docs/evidencias/aws/*.md
+
+# ---------------------------------------------------------------------------
+# Maven
+# ---------------------------------------------------------------------------
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Binarios compilados sueltos
+*.class
+*.jar
+*.war
+*.ear
+
+# ---------------------------------------------------------------------------
+# Credenciales y secretos: NUNCA deben entrar al repositorio
+# ---------------------------------------------------------------------------
+# Llaves privadas (las de EC2, entre otras)
+*.pem
+*.key
+*.ppk
+id_rsa
+id_rsa.*
+*.p12
+*.jks
+*.keystore
+
+# Configuracion local de AWS y variables de entorno
+.aws/
+aws-credentials*
+credentials
+*.env
+.env
+.env.*
+
+# ---------------------------------------------------------------------------
+# Salidas de ejecucion
+# ---------------------------------------------------------------------------
+# Archivo generado por el "navegador" del Ejercicio 2
+result.html
+
+*.log
+logs/
+hs_err_pid*.log
+replay_pid*.log
+
+# ---------------------------------------------------------------------------
+# IDEs
+# ---------------------------------------------------------------------------
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+
+# ---------------------------------------------------------------------------
+# Sistema operativo
+# ---------------------------------------------------------------------------
+Thumbs.db
+desktop.ini
+.DS_Store
+*~
+*.swp
+*.tmp

@@ -1,0 +1,311 @@
+/*
+ * Hoja de estilos de la aplicación.
+ *
+ * Es una petición HTTP más: cuando el navegador encuentra el <link> de index.html, abre una
+ * segunda conexión al servidor Java para pedir este archivo.
+ */
+
+:root {
+  --fondo: #0f2027;
+  --fondo-alto: #16303a;
+  --tarjeta: #17323d;
+  --borde: #24485a;
+  --texto: #e8f1f5;
+  --texto-suave: #a7bcc7;
+  --acento: #7fd1ff;
+  --ok: #6ee7a8;
+  --ok-fondo: #123a2b;
+  --error: #ff9f9f;
+  --error-fondo: #3d1a1f;
+  --radio: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0 1rem 3rem;
+  background: linear-gradient(160deg, var(--fondo), var(--fondo-alto) 60%, var(--fondo));
+  background-attachment: fixed;
+  color: var(--texto);
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+}
+
+main,
+.banner,
+footer {
+  max-width: 62rem;
+  margin: 0 auto;
+}
+
+/* ---------------- Encabezado ---------------- */
+
+.banner {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 2.5rem 0 1.5rem;
+}
+
+.banner__logo {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  border-radius: var(--radio);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.5rem;
+  flex-shrink: 0;
+}
+
+.banner__eyebrow {
+  margin: 0;
+  color: var(--acento);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.banner h1 {
+  margin: 0.2rem 0 0.6rem;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  line-height: 1.2;
+}
+
+.banner__lead {
+  margin: 0;
+  color: var(--texto-suave);
+  max-width: 46rem;
+}
+
+/* ---------------- Tarjetas ---------------- */
+
+.card {
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.card h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.15rem;
+}
+
+.card__hint {
+  margin: 0 0 1rem;
+  color: var(--texto-suave);
+  font-size: 0.92rem;
+}
+
+/* ---------------- Formularios ---------------- */
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.88rem;
+  color: var(--texto-suave);
+}
+
+.field__row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+input {
+  flex: 1 1 8rem;
+  min-width: 0;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--borde);
+  background: #0e2630;
+  color: var(--texto);
+  font: inherit;
+}
+
+input:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+button {
+  padding: 0.55rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: var(--acento);
+  color: #08222c;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+button.secondary {
+  background: transparent;
+  border: 1px solid var(--borde);
+  color: var(--texto);
+  font-weight: 500;
+}
+
+.botonera {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ---------------- Paneles de resultado ---------------- */
+
+.status {
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  border: 1px dashed var(--borde);
+  color: var(--acento);
+  font-size: 0.95rem;
+}
+
+.panel {
+  margin: 0 0 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+
+.panel--ok {
+  background: var(--ok-fondo);
+  border-color: var(--ok);
+}
+
+.panel--error {
+  background: var(--error-fondo);
+  border-color: var(--error);
+}
+
+.panel__mensaje {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.panel--ok .panel__mensaje {
+  color: var(--ok);
+}
+
+.panel--error .panel__mensaje {
+  color: var(--error);
+}
+
+.panel__detalle {
+  margin: 0.5rem 0 0;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+.detalle {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  margin: 0.8rem 0 0;
+  font-size: 0.9rem;
+}
+
+.detalle dt {
+  color: var(--texto-suave);
+}
+
+.detalle dd {
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
+/* ---------------- Respuesta cruda ---------------- */
+
+.crudo summary {
+  cursor: pointer;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+.crudo pre {
+  margin: 0.75rem 0 0;
+  padding: 0.9rem;
+  border-radius: 8px;
+  background: #0b1e26;
+  border: 1px solid var(--borde);
+  color: var(--texto-suave);
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.85rem;
+  /* El contenido ancho se desplaza dentro de su caja, no empuja la página. */
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ---------------- Recursos estáticos ---------------- */
+
+figure {
+  margin: 0 0 1rem;
+}
+
+figure img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radio);
+  border: 1px solid var(--borde);
+}
+
+figcaption {
+  margin-top: 0.5rem;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+.enlaces {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--texto-suave);
+  font-size: 0.92rem;
+}
+
+a {
+  color: var(--acento);
+}
+
+code {
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 0.9em;
+  background: rgba(127, 209, 255, 0.1);
+  padding: 0.1em 0.35em;
+  border-radius: 5px;
+}
+
+footer {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  text-align: center;
+  padding-top: 1rem;
+}

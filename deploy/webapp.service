@@ -1,0 +1,56 @@
+# Unidad de systemd para la aplicacion web del laboratorio.
+#
+# Destino en la instancia EC2: /etc/systemd/system/webapp.service
+#
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now webapp
+#   sudo systemctl status webapp
+#   journalctl -u webapp -f
+#
+# Con esto la aplicacion sobrevive al cierre de la sesion SSH y vuelve a arrancar sola si el
+# proceso muere o si se reinicia la instancia.
+
+[Unit]
+Description=Aplicacion web secuencial sobre sockets (TDSE - laboratorio AWS)
+Documentation=https://github.com/Exael74/From-a-Minimal-HTTP-Server-to-a-Web-Application-on-AWS
+# La aplicacion escucha en 0.0.0.0, asi que necesita la red ya configurada.
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+# Usuario sin privilegios creado por el script de instalacion. La aplicacion no necesita root:
+# escucha en un puerto alto y solo lee su propio jar.
+User=webapp
+Group=webapp
+WorkingDirectory=/opt/webapp
+
+# El puerto NO esta quemado en el codigo. Cambiarlo aqui y reiniciar el servicio es suficiente;
+# recuerda que tambien debe abrirse en el security group de la instancia.
+Environment=PORT=8080
+ExecStart=/usr/bin/java -jar /opt/webapp/taller-networking.jar
+
+# Reinicio ante fallos, con margen para no entrar en un bucle de arranques.
+Restart=on-failure
+RestartSec=5
+
+# Parada limpia: SIGTERM dispara el shutdown hook, que cierra el ServerSocket.
+KillSignal=SIGTERM
+TimeoutStopSec=20
+
+# Los logs van al journal; se leen con: journalctl -u webapp
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=webapp
+
+# Endurecimiento basico. El proceso no escribe en disco ni necesita el home de nadie.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target

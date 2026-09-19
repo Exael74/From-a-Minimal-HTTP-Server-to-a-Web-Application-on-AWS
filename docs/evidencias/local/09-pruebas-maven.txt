@@ -1,0 +1,34 @@
+Output of: mvn clean test
+Fecha: 2026-09-18
+-----------------------------------------------------------------------
+[INFO]  T E S T S
+[INFO] Running edu.escuelaing.tdse.networking.sockets.LineServerTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.209 s -- in edu.escuelaing.tdse.networking.sockets.LineServerTest
+[INFO] Running edu.escuelaing.tdse.networking.sockets.MathFunctionProtocolTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in edu.escuelaing.tdse.networking.sockets.MathFunctionProtocolTest
+[INFO] Running edu.escuelaing.tdse.networking.sockets.SquareProtocolTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in edu.escuelaing.tdse.networking.sockets.SquareProtocolTest
+[INFO] Running edu.escuelaing.tdse.networking.urls.MiniBrowserTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.273 s -- in edu.escuelaing.tdse.networking.urls.MiniBrowserTest
+[INFO] Running edu.escuelaing.tdse.networking.urls.URLInspectorTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in edu.escuelaing.tdse.networking.urls.URLInspectorTest
+[INFO] Running edu.escuelaing.tdse.networking.web.FileHttpServerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.249 s -- in edu.escuelaing.tdse.networking.web.FileHttpServerTest
+[INFO] Running edu.escuelaing.tdse.networking.web.StaticFileResolverTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.134 s -- in edu.escuelaing.tdse.networking.web.StaticFileResolverTest
+[INFO] Running edu.escuelaing.tdse.networking.webapp.HttpRequestTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 s -- in edu.escuelaing.tdse.networking.webapp.HttpRequestTest
+[INFO] Running edu.escuelaing.tdse.networking.webapp.JsonTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in edu.escuelaing.tdse.networking.webapp.JsonTest
+[INFO] Running edu.escuelaing.tdse.networking.webapp.PublicResourcesTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.050 s -- in edu.escuelaing.tdse.networking.webapp.PublicResourcesTest
+[INFO] Running edu.escuelaing.tdse.networking.webapp.RequestHandlerTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in edu.escuelaing.tdse.networking.webapp.RequestHandlerTest
+[INFO] Running edu.escuelaing.tdse.networking.webapp.ServicesTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.336 s -- in edu.escuelaing.tdse.networking.webapp.ServicesTest
+[INFO] Running edu.escuelaing.tdse.networking.webapp.WebApplicationTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.404 s -- in edu.escuelaing.tdse.networking.webapp.WebApplicationTest
+[INFO] Results:
+[INFO] Tests run: 122, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  11.425 s

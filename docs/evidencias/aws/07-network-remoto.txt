@@ -1,0 +1,21 @@
+Evidencia de red contra la direccion publica de la instancia EC2 (18.212.208.5:8080)
+Capturada con las herramientas de red del navegador (equivalente a la pestaña Network de DevTools).
+Fecha: 2026-09-18
+
+Carga inicial de la pagina de inicio (recursos estaticos, 5 solicitudes):
+
+1. GET http://18.212.208.5:8080/                 -> 200 OK  (text/html; charset=UTF-8)
+2. GET http://18.212.208.5:8080/styles.css       -> 200 OK  (text/css; charset=UTF-8)
+3. GET http://18.212.208.5:8080/logo.png         -> 200 OK  (image/png)
+4. GET http://18.212.208.5:8080/secuencial.jpg   -> 200 OK  (image/jpeg)
+5. GET http://18.212.208.5:8080/app.js           -> 200 OK  (text/javascript; charset=UTF-8)
+
+Servicios dinamicos disparados desde la interfaz (fetch asincrono, sin recargar la pagina):
+
+6. GET http://18.212.208.5:8080/hello?name=Stiven  -> 200 OK  (application/json; charset=UTF-8)
+7. GET http://18.212.208.5:8080/square?number=12   -> 200 OK  (application/json; charset=UTF-8)
+8. GET http://18.212.208.5:8080/time               -> 200 OK  (application/json; charset=UTF-8)
+
+Las 8 solicitudes se resolvieron con status 200 contra la IP publica de la instancia EC2
+(no localhost), confirmando que tanto los recursos estaticos como los tres servicios
+hardcodeados funcionan de extremo a extremo a traves de la red publica.
